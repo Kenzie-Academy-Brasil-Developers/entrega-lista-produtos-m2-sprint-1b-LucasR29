@@ -59,6 +59,8 @@ display: flex;
 justify-content: space-between;
 }
 
+
+
 .campoBuscaPorNome {
 border: none;
 padding: 0 10px;
@@ -134,7 +136,7 @@ width: 100%;
 list-style: none;
 display: flex;
 flex-wrap: wrap;
-justify-content: space-between;
+gap: 16px;
 margin-top: 40px;
 width: 90%;
 }
