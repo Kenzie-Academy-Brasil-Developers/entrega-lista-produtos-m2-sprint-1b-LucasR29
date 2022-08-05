@@ -2,46 +2,109 @@ const currency = function(number){
     return new Intl.NumberFormat('pt-BR', {style: 'currency',currency: 'BRL', minimumFractionDigits: 2}).format(number);
 };
 
-const ulProducts = document.getElementById('listaProdutos')
-const spanSoma = document.getElementById('somaValores')
+const ulProducts = document.getElementById('productsList')
+const ulProductsCart = document.getElementById('productsCartList')
 const buttonAll = document.getElementById('buttonAll')
-const buttonHortifruti = document.getElementById('buttonHortifruti')
+const buttonHortifruti = document.getElementById('buttonHortifruiti')
 const buttonPanificadora = document.getElementById('buttonPanificadora')
 const buttonLaticinios = document.getElementById('buttonLaticinios')
 const searchBar = document.getElementById('searchBar')
 const searchButton = document.getElementById('searchButton')
+const spanQuantity = document.getElementById('spanQuantity')
+const spanPrice = document.getElementById('spanFullPrice')
+const fullCart = document.getElementById('fullCart')
+const emptyCart = document.getElementById('emptyCart')
+const searchList = []
+let count = 0
+let fullValue = 0
+
+
 
 
 function createCards(section = 'none') {
-    let sum = 0
-    for(i in produtos){
+    for(let i = 0; i < produtos.length; i++){
         if(produtos[i].secao == section || section == 'none'){
+            const liProductsCard = document.createElement('li')
+            const imgCardProducts = document.createElement('img')
+            const h3TitleCards = document.createElement('h3')
+            const spanSectionCards = document.createElement('span')
+            const olListComponents = document.createElement('ol')
             const keyWords = document.createElement('span')
             keyWords.innerText = (produtos[i].nome + produtos[i].secao)
             keyWords.style.display = 'none'
-
-            const liProducts = document.createElement('li')
-            ulProducts.appendChild(liProducts)
-        
-            const h3Products = document.createElement('h3')
-            h3Products.innerText = produtos[i].nome
-        
-            const imgProducts = document.createElement('img')
-            imgProducts.src = produtos[i].img
-           
-            const spanProducts = document.createElement('span')
-            spanProducts.innerText = produtos[i].secao
             
-            const pProdutos = document.createElement('p')
-            pProdutos.innerText = currency(produtos[i].preco)
-        
-            liProducts.append(keyWords, imgProducts, h3Products, spanProducts, pProdutos)
-    
-            sum = sum + produtos[i].preco
+            imgCardProducts.src = produtos[i].img
+            h3TitleCards.innerText = produtos[i].nome
+            spanSectionCards.innerText = produtos[i].secao
+            liProductsCard.classList.add('search')
+            
+            for(let y = 0; y < produtos[i].componentes.length; y++){
+                const liComponents = document.createElement('li')
+                liComponents.innerText = produtos[i].componentes[y]
+                olListComponents.appendChild(liComponents)
+            }
+
+            const divPriceCard = document.createElement('div')
+            const pPriceCard = document.createElement('p')
+            const buttonBuyCard = document.createElement('button')
+            const value = produtos[i].preco
+            
+            buttonBuyCard.innerText = 'Comprar'
+            pPriceCard.innerText = currency(produtos[i].preco)
+            divPriceCard.append(pPriceCard, buttonBuyCard)
+            liProductsCard.append(keyWords, imgCardProducts, h3TitleCards, spanSectionCards, olListComponents, divPriceCard)
+            ulProducts.appendChild(liProductsCard)
+
+            
+
+            buttonBuyCard.addEventListener('click', function(){
+                count += 1
+                fullValue = fullValue + value
+
+                const liCart = document.createElement('li')
+                liCart.classList.add('search')
+                const divCart = document.createElement('div')
+                const imgCart = document.createElement('img')
+                const divCartInternal = document.createElement('div')
+                const h3Cart = document.createElement('h3')
+                const spanCart = document.createElement('span')
+                const pCartPrice = document.createElement('p')
+                const buttonCartTrash = document.createElement('button')
+                const imgCartTrash = document.createElement('img')
+
+                imgCart.src = imgCardProducts.src
+                h3Cart.innerText = h3TitleCards.innerText
+                spanCart.innerText = spanSectionCards.innerText
+                pCartPrice.innerText = pPriceCard.innerText
+                spanQuantity.innerText = count
+                spanPrice.innerText = currency(fullValue)
+
+
+                imgCartTrash.src = "./src/img/trash.png"
+                buttonCartTrash.appendChild(imgCartTrash)
+                divCartInternal.append(h3Cart, spanCart, pCartPrice)
+                divCart.append(imgCart,divCartInternal)
+                liCart.append(divCart, buttonCartTrash)
+                ulProductsCart.appendChild(liCart)
+
+                fullCart.style.display = "flex"
+                emptyCart.style.display = "none"
+
+                buttonCartTrash.onclick = function(){
+                    count--
+                    fullValue = fullValue - value
+
+                    spanQuantity.innerText = count
+                    spanPrice.innerText = currency(fullValue)
+                    liCart.remove()
+                    if(count == 0){
+                        fullCart.style.display = "none"
+                        emptyCart.style.display = "block"
+                    }
+                }
+            })
         }
     }
-    spanSoma.innerText = ''
-    spanSoma.innerText = currency(sum)
 }
 
 createCards()
@@ -66,19 +129,18 @@ buttonLaticinios.addEventListener('click', function() {
     createCards('Laticínios')
 })
 
-const list = document.querySelector('.ulCards')
+const listaaa = document.querySelector('.products__list')
 
 searchBar.addEventListener('keyup', function(e){
     let term = e.target.value.toLowerCase()
-    const products = list.getElementsByTagName('li')
-    
-    Array.from(products).forEach(function(product){
-        const name = product.firstElementChild.textContent
+    const products = listaaa.getElementsByClassName('search')
+
+    Array.from(products).forEach(function(x){
+        const name = x.firstElementChild.innerText
         if(name.toLowerCase().indexOf(term) != -1){
-            product.style.display = 'block'
+            x.style.display = 'block'
         }else{
-            product.style.display = 'none'
+            x.style.display = 'none'
         }
     })
 })
-

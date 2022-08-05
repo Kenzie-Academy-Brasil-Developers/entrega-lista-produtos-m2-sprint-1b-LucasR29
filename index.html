@@ -16,59 +16,65 @@
     <title>Lista de Produtos</title>
   </head>
   <body>
-    <!-- CABEÇALHO -->
     <header>
       <h1>Shop now</h1>
     </header>
-    <!-- PARTE PRINCIPAL -->
     <main>
-      <section class="filtersContainer">
-        <div id="botoesContainer">
-          <button class="estiloGeralBotoes estiloGeralBotoes--filter" id = "buttonAll">
-            Todos Produtos
-          </button>
-          <button class="estiloGeralBotoes estiloGeralBotoes--filter" id = "buttonHortifruti">
-            Hortifruti
-          </button>
-          <button class="estiloGeralBotoes estiloGeralBotoes--filter" id = "buttonPanificadora">
-            Panificadora
-          </button>
-          <button class="estiloGeralBotoes estiloGeralBotoes--filter" id = "buttonLaticinios">
-            Laticínios
-          </button>
-        </div>
+      <section class="container">
 
-        <div class="containerBuscaPorNome">
-          <input
-            type="text"
-            placeholder="Pesquisar por"
-            class="campoBuscaPorNome"
-            id = "searchBar"
-          />
-          <button
-            class="estiloGeralBotoes estiloGeralBotoes--botaoBuscaPorNome" id="searchButton"
-          >
-            <img src="./src/img/search.png" alt="lupa" />
-          </button>
-        </div>
-      </section>
-      <section class="priceContainer">
-        <div>
-            <img src="./src/img/alert-circle.png" alt="exclamação de alerta">
-            <p>Valor total dos produtos da sessão selecionada</p>
-        </div>
-        <span id = "somaValores">R$ 0.00</span>
-      </section>
-      <!-- CONTAINER DE PRODUTOS -->
-      <section class="containerVitrine">
-        <div class="containerListaProdutos">
-         <ul id = "listaProdutos" class = "ulCards">
-                    
+        <nav class="filter">
+          <section class="filter__buttons">
+            <button class="filter__buttons--button" id="buttonAll">Todos Produtos</button>
+            <button class="filter__buttons--button" id="buttonHortifruiti">Hortifruit</button>
+            <button class="filter__buttons--button" id="buttonPanificadora">Panificadora</button>
+            <button class="filter__buttons--button" id="buttonLaticinios">Laticínios</button>
+          </section>
+      
+          <section class="filter__search">
+            <input type="text" class="filter__search--input" placeholder="Digite sua pesquisa" id="searchBar">
+            <button class="filter__search--button">
+              <img src="./src/img/search.png" alt="lupa" />
+            </button>
+          </section>
+        </nav>
+
+        <div class="products">
+          <ul class="products__list" id="productsList" >
           </ul>
+
+
+          <div class="products__cart">
+            <div class="products__cart--top">
+              <img src="./src/img/cart.png" alt="">
+              <h3>Carrinho</h3>
+            </div>
+            <div class="products__cart--emptyCart" id="emptyCart">
+              <div>
+                <img src="./src/img/Capture.PNG" alt="">
+                <span>Por enquanto não temos produtos no carrinho</span>
+              </div>
+            </div>
+
+            <div class="products__cart--fullCart" id="fullCart">
+              <ul id="productsCartList">
+              </ul>
+              <div class="price">
+                <div class="price--gray">
+                  <p>Quantidade</p>
+                  <span id="spanQuantity"></span>
+                </div>
+                <div>
+                  <p>Total</p>
+                  <span id="spanFullPrice"></span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
     <script src="./src/js/dataProdutos.js"></script>
     <script src="./src/js/script.js"></script>
   </body>
-</html>
+  </html>
+  
